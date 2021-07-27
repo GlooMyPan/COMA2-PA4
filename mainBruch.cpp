@@ -8,19 +8,22 @@
 
 using namespace std ;
 
+// Ausgabe von z/n in endlicher bzw. periodischer Darstellung
 vector<string> dezimalbruch(long long z, long long n, size_t numberOfDigits=100)
 {
     string underscore;
     if (z % n == 0) // keine Nachkommastellen
         return {underscore, to_string(z / n)};
 
-    string zahl = to_string(int(floor(z/n))) + '.'; // Vorkommastellen, Dezimalpunkt
+    string zahl = to_string(z/n) + '.'; // Vorkommastellen, Dezimalpunkt
+
     HashTabelle<Pair> T(100); // initialisiere leere Hash-Tabelle T
     size_t stelle = 0; // akt. Stellenindex nach dem Komma
     size_t periode = 0; // Stelle des Periodenbeginns
 
     for (long long rest = 10*(z%n); rest > 0; rest = 10*(rest % n))
     {
+        ++stelle; // aktualisiere Stellenindex
         Pair p(rest, stelle);
 
         HashTabelle<Pair>::iterator pIter = T.find(p);
@@ -29,9 +32,8 @@ vector<string> dezimalbruch(long long z, long long n, size_t numberOfDigits=100)
             periode = stelle - pIter->get_count(); // richtige Stelle des Periodenbeginns
             break;
         }
-        zahl += to_string(int(floor(rest/n))); // speichere akt. Dezimalstelle
+        zahl += to_string(rest/n); // speichere akt. Dezimalstelle
 
-        ++stelle; // aktualisiere Stellenindex
         T.insert(p); // fuge neuen Listeneintrag ein
     }
 
@@ -41,7 +43,9 @@ vector<string> dezimalbruch(long long z, long long n, size_t numberOfDigits=100)
     vector<string> ans; // ausgeben vector
 
     /*** sie werden korrekt angezeigt, auch wenn sie zu lang sind ***/
-    while (zahl.size() >= numberOfDigits) {
+    //  Zeilenumbruch bei lange Zahlen
+    while (zahl.size() >= numberOfDigits)
+    {
         ans.push_back(underscore.substr(0, numberOfDigits));
         underscore.erase(0, numberOfDigits);
         ans.push_back(zahl.substr(0, numberOfDigits));

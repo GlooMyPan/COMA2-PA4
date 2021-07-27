@@ -6,6 +6,7 @@
 #define PA3_LISTE_H
 #include <list>
 #include <iostream>
+#include <iterator> // für advance()
 
 template <class T>
 class Liste

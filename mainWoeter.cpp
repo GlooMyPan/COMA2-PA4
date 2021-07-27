@@ -17,10 +17,11 @@ int main ( int narg, char* argv[] )
 try
 {
 	// gebe Usage aus
-	if ( narg < 2 )
+	if ( narg < 3 )
 	{
-		cout << "Usage: " << argv[ 0 ] << "  dateiName  [anzahl]" << endl ;
+		cout << "Usage: " << argv[ 0 ] << "  dateiName [nBuckets]  [anzahl]" << endl ;
 		cout << "       dateiName: Name einer ASCII-Datei"		  << endl ;
+		cout << "       nBuckets: Laenge von Bucktets"		      << endl ;
 		cout << "       anzahl   : (optional) natuerliche Zahl"	  << endl ;
 		cout << "Zaehlt die in der Datei auftretenden Woerter"	  << endl ;
 		cout << "und gibt sie nach absteigender Haeufigkeit aus." << endl ;
@@ -33,8 +34,8 @@ try
 /***  lese Parameter  ***/
 
 	char*    dateiName = argv[ 1 ] ;
-	size_t   anzahl    = ( narg >= 3 ? atoi( argv[ 2 ] ) : UINT_MAX ) ;
-    size_t   nBuckets  = ( narg >= 3 ? atoi( argv[ 2 ] ) : UINT_MAX ) ; // get size of buckets
+	size_t   anzahl    = ( narg >= 4 ? atoi( argv[ 3 ] ) : UINT_MAX ) ;
+    size_t   nBuckets  = atoi( argv[ 2 ] ) ; // get size of buckets
 /***  öffne Datei  ***/
 
 	ifstream datei( dateiName ) ;
@@ -73,7 +74,7 @@ try
 
 
         Zaehler zaehler(wort);
-        Liste<Zaehler>::iterator zaehlerIter = woerter.find(zaehler); // suche wort in woerter
+        HashTabelle<Zaehler>::iterator zaehlerIter = woerter.find(zaehler); // suche wort in woerter
 
         if (zaehlerIter != woerter.end()) // wenn wort in woerter stellt
             zaehlerIter->count(); // +1 count

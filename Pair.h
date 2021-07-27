@@ -1,6 +1,7 @@
 #ifndef PA4_PAIR_H
 #define PA4_PAIR_H
 
+#include <functional> // für hash<T>
 
 class Pair {
 
@@ -16,18 +17,21 @@ public:
     {}
 
 /***  get-Methoden  ***/
+    // gibt _count aus
     size_t get_count() const
     {
         return _count;
     }
 
+    // gibt hash-wert von _s aus
     explicit operator size_t() const
     {
-        std::hash<size_t> hasher; // StandardKlasse hash
+        static std::hash<long long> hasher; // StandardKlasse hash
         return hasher(_number);
     }
 
 /***  Vergleichesoperatoren  ***/
+    // ob pair._number gleich this->_number ist.
     bool operator==(const Pair& pair) const
     {
         return pair._number == _number;

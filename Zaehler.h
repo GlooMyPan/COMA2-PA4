@@ -7,6 +7,7 @@
 
 #include <iostream> // für cout
 #include <string>
+#include <functional> // für hash<T>
 
 /**
 * Klasse f¨ur einzelne W¨orter mit Z¨ahler f¨ur H¨aufigkeit
@@ -16,7 +17,7 @@ class Zaehler
 {
 /***  private Elemente ***/
     std::string _s; // wort
-    size_t _count; // zählt die Häufigkeit der Worter
+    size_t _count; // die Häufigkeit von _s
 public:
 
 /***  Konstruktoren  ***/
@@ -26,25 +27,28 @@ public:
     {}
 
 /***  get-Methoden  ***/
-
+    // gibt hash-wert von _s aus
     explicit operator size_t() const
     {
-        std::hash<std::string> hasher; // StandardKlasse hash
+        static std::hash<std::string> hasher; // StandardKlasse hash
         return hasher(_s);
     }
 
 /***  set-Methoden  ***/
+    // zählt _s
     void count()
     {
-        ++_count;
+        ++_count; //
     }
 
 /***  Vergleichesoperatoren  ***/
+    // ob die Häufigkeit von zaehler größer als _s ist.
     bool operator>(Zaehler const & zaehler) const
     {
         return _count < zaehler._count;
     }
 
+    // ob die Häufigkeit von zaehler gleich _s ist.
     bool operator==(Zaehler const & zaehler) const
     {
         return _s == zaehler._s;
